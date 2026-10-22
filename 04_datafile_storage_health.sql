@@ -1,4 +1,3 @@
-
 -- Project: Oracle DBA Health Check Toolkit
 -- Script: 04_datafile_storage_health.sql
 -- Purpose: Report datafile size and autoextend configuration.
