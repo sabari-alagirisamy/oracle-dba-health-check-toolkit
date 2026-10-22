@@ -1,3 +1,4 @@
+
 -- Project: Oracle DBA Health Check Toolkit
 -- Script: 05_long_running_sessions.sql
 -- Purpose: Identify active sessions and potential blocking.
