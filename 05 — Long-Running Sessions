@@ -1,0 +1,36 @@
+-- Project: Oracle DBA Health Check Toolkit
+-- Script: 05_long_running_sessions.sql
+-- Purpose: Identify active sessions and potential blocking.
+-- Access: Requires access to V$SESSION and V$SQL.
+
+SET PAGESIZE 100
+SET LINESIZE 240
+SET VERIFY OFF
+SET FEEDBACK ON
+
+COLUMN USERNAME FORMAT A18
+COLUMN SESSION_STATUS FORMAT A10
+COLUMN SQL_ID FORMAT A15
+COLUMN EVENT FORMAT A35
+COLUMN WAIT_CLASS FORMAT A18
+COLUMN BLOCKING_SESSION FORMAT 9999999999
+
+PROMPT === Active Session Monitoring Report ===
+
+SELECT
+    s.sid,
+    s.serial#,
+    s.username,
+    s.status AS session_status,
+    s.sql_id,
+    ROUND(s.last_call_et / 60, 2) AS minutes_since_last_call,
+    s.wait_class,
+    s.event,
+    s.blocking_session
+FROM v$session s
+WHERE s.type = 'USER'
+  AND s.status = 'ACTIVE'
+  AND s.username IS NOT NULL
+ORDER BY s.last_call_et DESC;
+
+PROMPT === End of Active Session Report ===
